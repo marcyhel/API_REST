@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const PORT = 8877; 
+const PORT = process.env.PORT || 8877;
 
 app.get('/about',(req,res)=>{
     res.json([{
