@@ -25,13 +25,14 @@ app.get('/get_user',(req,res)=>{
 })
 app.get('/user',(req,res)=>{
     const [nome,email,pass]=[req.query.nome,req.query.email,req.query.pass];
-    res.json({nome:nome});
+    
     //const {nome,email,pass}=req.query.nome;
     
     const dados={nome,email,pass}
     User.create(dados,(err)=>{
         if(err) return res.status(400).json({msg:'users não encontrado'})
     })
+    res.json({nome:nome});
 })
 app.get('/',(req,res)=>{
     res.json({msg:'oks2'})
