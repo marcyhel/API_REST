@@ -19,10 +19,12 @@ app.get('/about',(req,res)=>{
 })
 app.get('/get_user',(req,res)=>{
     User.find({},(err,resposta)=>{
+        if(err)return res.status(400).json({msg:'users não encontrado'})
         res.send(resposta)
         
     })
 })
+
 app.get('/user',(req,res)=>{
     const [nome,email,pass]=[req.query.nome,req.query.email,req.query.pass];
     
@@ -30,7 +32,7 @@ app.get('/user',(req,res)=>{
     
     const dados={nome,email,pass}
     User.create(dados,(err)=>{
-        if(err) return res.status(400).json({msg:'users não encontrado'})
+        if(err) return res.status(400).json({msg:'users não cadastrado'})
     })
     res.json({nome:nome});
 })
