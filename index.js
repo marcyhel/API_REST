@@ -16,4 +16,4 @@ app.get('/',(req,res)=>{
     res.json({msg:'oks'})
 })
 
-app.listen(PORT)
+app.listen(PORT,()=>{console.log("executando")})
