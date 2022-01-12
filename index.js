@@ -34,7 +34,7 @@ app.get('/user',(req,res)=>{
     })
 })
 app.get('/',(req,res)=>{
-    res.json({msg:'oks'})
+    res.json({msg:'oks2'})
 })
 
 app.listen(PORT,()=>{console.log("executando")})
