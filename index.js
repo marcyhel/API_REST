@@ -35,7 +35,7 @@ app.get('/user',(req,res)=>{
     res.json({nome:nome});
 })
 app.get('/',(req,res)=>{
-    res.json({msg:'oks2'})
+    res.json({msg:'oks3'})
 })
 
 app.listen(PORT,()=>{console.log("executando")})
