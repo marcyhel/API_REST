@@ -5,7 +5,7 @@ const User = require("./config/model_user");
 const app = express();
 
 const PORT = process.env.PORT || 8877;
-// mongodb+srv://marcyhel:<password>@cluster0.wkuub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+// mongodb+srv://marcyhel:042224@cluster0.wkuub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 // http://localhost:8877/user?nome=marcyhel&email=sdsd&pass=131
 
 app.get('/about',(req,res)=>{
