@@ -51,6 +51,7 @@ app.get('/',(req,res)=>{
     res.json({
         msg:'oks3',
         variavel:process.env.MONGODB,
+        porta:process.env.PORT
        // conectado:mongoose.connection.on('connected', () => {})
     })
 })
