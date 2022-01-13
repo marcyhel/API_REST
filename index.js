@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require("mongoose");
 require('dotenv').config();
 require('./config/conection');
 const morgan = require('morgan');
@@ -20,16 +21,18 @@ app.get('/about',(req,res)=>{
         nome:'nathalia'
     }])
 })
+
 app.get('/get_user',(req,res)=>{
-    try{
-        User.find({},(err,resposta)=>{
-            if(err)return res.status(400).json({msg:'users não encontrado'})
-            res.send(resposta)
-            
+    
+        User.find({}).then((data) => {
+            console.log('Data: ', data);
+            res.json(data);
         })
-    }catch(e){
-        res.send('erro');
-    }
+        .catch((error) => {
+            console.log('error: ', error);
+            res.json(error);
+        });
+    
     
 })
 
@@ -47,7 +50,8 @@ app.get('/user',(req,res)=>{
 app.get('/',(req,res)=>{
     res.json({
         msg:'oks3',
-        variavel:process.env.MONGODB
+        variavel:process.env.MONGODB,
+       // conectado:mongoose.connection.on('connected', () => {})
     })
 })
 app.use(morgan('tiny'));
