@@ -25,12 +25,12 @@ function getDates(startDate, stopDate) {
   }
 
   app.get('/setinmet',async(req,res)=>{
-    const [nome]=[req.query.nome];
-    const dados={nome}
+    const [data]=[req.query.nome];
+    const dados={data}
     Inmet.create(dados,(err)=>{
         if(err) return res.status(400).json({msg:'users não cadastrado'})
     })
-    res.json({nome:nome});
+    res.json({nome:data});
   })
 app.get('/inmet',async(req,res)=>{
     const response =  await axios.get('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')//http.request('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')//await fetch('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22');
