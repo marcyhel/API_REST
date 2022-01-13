@@ -26,7 +26,9 @@ function getDates(startDate, stopDate) {
 
   app.get('/setinmet',async(req,res)=>{
     const [data]=[req.query.nome];
-    const dados={data}
+    const response =  await axios.get('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')
+    const dados={data:response.data}
+    
     Inmet.create(dados,(err)=>{
         if(err) return res.status(400).json({msg:'users não cadastrado'})
     })
