@@ -22,21 +22,8 @@ function getDates(startDate, stopDate) {
       currentDate = currentDate.addDays(1);
     }
     return dateArray;
-  }
-
-  app.get('/setinmet',async(req,res)=>{
-    const [data]=[req.query.nome];
-    const response =  await axios.get('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')
-    const dados={data:response.data}
-    
-    Inmet.create(dados,(err)=>{
-        if(err) return res.status(400).json({msg:'users não cadastrado'})
-    })
-    res.json({nome:data});
-  })
-app.get('/inmet',async(req,res)=>{
-    const response =  await axios.get('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')//http.request('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22')//await fetch('https://apitempo.inmet.gov.br/condicao/capitais/2019-10-22');
-    
+}
+function listDatas(){
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf())
         dat.setDate(dat.getDate() + days);
@@ -45,7 +32,7 @@ app.get('/inmet',async(req,res)=>{
  
     
     const lastData=new Date();
-    lastData.setFullYear(lastData.getFullYear()-1 );
+    lastData.setFullYear(lastData.getFullYear()-2 );
 
     const data = new Date();
     
@@ -53,12 +40,68 @@ app.get('/inmet',async(req,res)=>{
     var stringDate=new Array();
     for (i = 0; i < dateArray.length; i ++ ) {
         stringDate.push(`${dateArray[i].getFullYear()}-${dateArray[i].getMonth()+1}-${dateArray[i].getDate()}`)
-        console.log(stringDate[i]);
+        //console.log(stringDate[i]);
     }
+    return stringDate;
   
+}
+app.get('/get_inmet',async(req,res)=>{
+    const [capital]=[req.query.capital];
+    if(capital){
+        Inmet.find({capital:capital}).then((data) => {
+            console.log('Data: ', data);
+            res.json(data);
+        })
+        .catch((error) => {
+            console.log('error: ', error);
+            res.json(error);
+        });
+    }
     
-    console.log(Date.now());
-    res.json(response.data);
+   
+})
+
+
+app.get('/inmet',async(req,res)=>{
+    const [pass]=[req.query.pass];
+    if(pass!='042224'){
+        res.json({erro:"senha errada"})
+        return false;
+    }
+    const listaDatas=listDatas();
+
+    var lista=[]
+    for (const e of listaDatas) {
+        while (true){
+            try{
+                const response =  await axios.get('https://apitempo.inmet.gov.br/condicao/capitais/'+e)
+                console.log(response.data)
+                response.data.forEach(l=>{
+                    lista.push(l.CAPITAL);
+                    const dados={
+                        data:e,
+                        capital:l.CAPITAL,
+                        tmin: l.TMIN18=='*'?"20":l.TMIN18,
+                        tmax: l.TMAX18=='*'?"30":l.TMAX18,
+                        umin: l.UMIN18=='*'?"60":l.UMIN18,
+                        pmax: l.PMAX12=='*'?"0":l.PMAX12,
+                    }
+
+                    Inmet.create(dados,(err)=>{
+                        if(err) return res.status(400).json({msg:'users não cadastrado'})
+                    })
+                })
+                console.log(e)
+                break;
+            }catch(e){}
+
+        }
+        
+    }
+    console.log(listaDatas.length);
+    console.log(lista.length);
+    
+    res.json(lista);
 })
 
 app.get('/about',(req,res)=>{
@@ -84,6 +127,20 @@ app.get('/get',(req,res)=>{
     
     
 })
+app.get('/gets',(req,res)=>{
+    
+    User.find({email:"mar"}).then((data) => {
+        console.log('Data: ', data);
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log('error: ', error);
+        res.json(error);
+    });
+
+
+})
+
 
 app.get('/user',(req,res)=>{
     const [nome,email,pass]=[req.query.nome,req.query.email,req.query.pass];
