@@ -22,7 +22,7 @@ app.get('/about',(req,res)=>{
     }])
 })
 
-app.get('/get_user',(req,res)=>{
+app.get('/get',(req,res)=>{
     
         User.find({}).then((data) => {
             console.log('Data: ', data);
