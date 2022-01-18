@@ -40,7 +40,18 @@ function listDatas(){
     var dateArray = getDates(lastData, data);
     var stringDate=new Array();
     for (i = 0; i < dateArray.length; i ++ ) {
-        stringDate.push(`${dateArray[i].getFullYear()}-${dateArray[i].getMonth()+1}-${dateArray[i].getDate()}`)
+        var a=(dateArray[i].getMonth()+1);
+        a=a.toString();
+
+        var d=(dateArray[i].getDate());
+        d=d.toString();
+        if(a=='1' ||a=='2' ||a=='3' ||a=='4' ||a=='5' ||a=='6' ||a=='7' ||a=='8' ||a=='9' ){
+            a='0'+a;
+        }
+        if(d=='1' ||d=='2' ||d=='3' ||d=='4' ||d=='5' ||d=='6' ||d=='7' ||d=='8' ||d=='9' ){
+            d='0'+d;
+        }
+        stringDate.push(`${dateArray[i].getFullYear()}-${a}-${d}`)
         //console.log(stringDate[i]);
     }
     return stringDate;
