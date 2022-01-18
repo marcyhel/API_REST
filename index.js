@@ -2,7 +2,7 @@
 const axios = require('axios')
 const express = require('express');
 const mongoose = require("mongoose");
-
+const cors = require('cors');
 require('dotenv').config();
 require('./config/conection');
 const morgan = require('morgan');
@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 8877;
 
 // http://localhost:8877/user?nome=marcyhel&email=sdsd&pass=131
 
+app.use(cors());
 function getDates(startDate, stopDate) {
     var dateArray = new Array();
     var currentDate = startDate;
@@ -161,5 +162,7 @@ app.get('/',(req,res)=>{
        // conectado:mongoose.connection.on('connected', () => {})
     })
 })
+
+
 app.use(morgan('tiny'));
 app.listen(PORT,()=>{console.log("executando")})
