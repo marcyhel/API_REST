@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 require('./config/conection');
 const morgan = require('morgan');
-const User = require("./config/model_user");
+const User_clima = require("./config/model_user");
 const Inmet = require("./config/model_inmet");
 const app = express();
 
@@ -128,7 +128,7 @@ app.get('/about',(req,res)=>{
 
 app.get('/get',(req,res)=>{
     
-        User.find({}).then((data) => {
+    User_clima.find({}).then((data) => {
             console.log('Data: ', data);
             res.json(data);
         })
@@ -139,9 +139,9 @@ app.get('/get',(req,res)=>{
     
     
 })
-app.get('/gets',(req,res)=>{
-    
-    User.find({email:"mar"}).then((data) => {
+app.get('/get_bh_clima',(req,res)=>{
+    const [email,pass]=[req.query.email,req.query.pass];
+    User_clima.find({email:email,pass:pass}).then((data) => {
         console.log('Data: ', data);
         res.json(data);
     })
@@ -152,15 +152,28 @@ app.get('/gets',(req,res)=>{
 
 
 })
+app.get('/up_bh_clima',(req,res)=>{
+    const [email]=[req.query.email];
+    User_clima.updateOne({email:email},{pass:"555555"}).then((data) => {
+        console.log('Data: ', data);
+        res.json(data);
+    })
+    .catch((error) => {
+        console.log('error: ', error);
+        res.json(error);
+    });
+   
+
+})
 
 
-app.get('/user',(req,res)=>{
-    const [nome,email,pass]=[req.query.nome,req.query.email,req.query.pass];
+app.get('/user_bh_clima',(req,res)=>{
+    const [nome,cpf,email,pass]=[req.query.nome,req.query.cpf,req.query.email,req.query.pass];
     
     //const {nome,email,pass}=req.query.nome;
     
-    const dados={nome,email,pass}
-    User.create(dados,(err)=>{
+    const dados={nome,cpf,email,pass}
+    User_clima.create(dados,(err)=>{
         if(err) return res.status(400).json({msg:'users não cadastrado'})
     })
     res.json({nome:nome});

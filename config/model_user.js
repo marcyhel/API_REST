@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const user = mongoose.Schema({
     nome:{ type:String, require:true},
+    cpf:{ type:String, require:true},
     email:{ type:String, require:true},
     pass:{ type:String, require:true},
 },
@@ -10,4 +11,4 @@ const user = mongoose.Schema({
     timestamps:true,
 },
 )
-module.exports = mongoose.model('user',user)
+module.exports = mongoose.model('bh_clima',user)
